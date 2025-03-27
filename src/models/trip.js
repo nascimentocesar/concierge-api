@@ -5,9 +5,9 @@ const schema = new mongoose.Schema(
     prompt: { type: String, required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const Travel = mongoose.model("Travel", schema);
+const Trip = mongoose.model("Trip", schema);
 
-module.exports = Travel;
+module.exports = Trip;
