@@ -1,0 +1,36 @@
+const { promptItinerary } = require("../services/trip.service");
+const { appDebug } = require("../infrastructure/debug");
+const { dbConnect } = require("../infrastructure/mongoose");
+const { mqChannel, mqEvents } = require("../infrastructure/rabbitmq");
+
+const startWorker = async () => {
+  await dbConnect();
+
+  const channel = await mqChannel();
+
+  channel.consume(
+    "default",
+    (message) => {
+      handleMessage(message)
+        .then(() => channel.ack(message))
+        .catch((error) => console.error("Error processing message:", error));
+    },
+    { exclusive: true }
+  );
+
+  appDebug("Worker listening on all queues");
+};
+
+const handleMessage = async (message) => {
+  const eventType = message.properties.headers.eventType;
+  const msgContent = JSON.parse(message.content.toString());
+  const eventHandler = {
+    [mqEvents.tripPromptItinerary]: promptItinerary,
+  }[eventType];
+  eventHandler(msgContent);
+};
+
+startWorker().catch((error) => {
+  console.error("Error starting worker:", error);
+  process.exit(1);
+});

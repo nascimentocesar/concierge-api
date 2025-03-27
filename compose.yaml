@@ -14,8 +14,10 @@ services:
       - mongo-express
       - rabbitmq-express
     depends_on:
-      - mongo
-      - rabbitmq
+      mongo:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
 
   nginx:
     image: nginx:1.27-alpine
@@ -51,10 +53,15 @@ services:
       - rabbitmq-express
     volumes:
       - rabbitmq:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   worker:
     image: concierge-api
-    command: node ./src/infrastructure/worker.js
+    command: node ./src/bin/worker
     env_file: .env
     build:
       context: .
@@ -65,8 +72,10 @@ services:
       - mongo-express
       - rabbitmq-express
     depends_on:
-      - mongo
-      - rabbitmq
+      mongo:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
 
 networks:
   nginx-express:

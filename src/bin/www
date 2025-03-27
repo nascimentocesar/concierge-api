@@ -7,8 +7,8 @@
 const app = require("../app");
 const http = require("http");
 
-const appDebug = require("../infrastructure/debug");
-const dbConnect = require("../infrastructure/mongoose");
+const { appDebug } = require("../infrastructure/debug");
+const { dbConnect } = require("../infrastructure/mongoose");
 const { mqConnect } = require("../infrastructure/rabbitmq");
 
 /**
