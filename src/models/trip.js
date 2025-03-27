@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
+const Itinerary = require("./itinerary");
 
 const schema = new mongoose.Schema(
   {
-    prompt: { type: String, required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    user: { type: String, required: true },
+    userPrompts: { type: [String], default: [] },
+    itineraries: { type: [Itinerary.schema], default: [] },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 const Trip = mongoose.model("Trip", schema);
