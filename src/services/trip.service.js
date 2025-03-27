@@ -1,5 +1,5 @@
-const promptItinerary = async ({ tripId }) => {};
+const generateItinerary = async ({ tripId }) => {};
 
 module.exports = {
-  promptItinerary,
+  generateItinerary,
 };

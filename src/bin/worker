@@ -1,4 +1,4 @@
-const { promptItinerary } = require("../services/trip.service");
+const { generateItinerary } = require("../services/trip.service");
 const { appDebug } = require("../infrastructure/debug");
 const { dbConnect } = require("../infrastructure/mongoose");
 const { mqChannel, mqEvents } = require("../infrastructure/rabbitmq");
@@ -25,7 +25,7 @@ const handleMessage = async (message) => {
   const eventType = message.properties.headers.eventType;
   const msgContent = JSON.parse(message.content.toString());
   const eventHandler = {
-    [mqEvents.tripPromptItinerary]: promptItinerary,
+    [mqEvents.tripGenerateItinerary]: generateItinerary,
   }[eventType];
   eventHandler(msgContent);
 };

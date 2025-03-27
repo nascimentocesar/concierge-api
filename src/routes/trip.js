@@ -1,6 +1,7 @@
 const express = require("express");
 const { mqSend, mqEvents } = require("../infrastructure/rabbitmq");
 const Trip = require("../models/trip");
+const { CreateTripSchema } = require("../schemas/trip.schema");
 const router = express.Router();
 
 router.get("/", async (_req, res) => {
@@ -15,9 +16,8 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { prompt, user } = req.body;
-  const trip = await Trip.create({ prompt, user });
-  mqSend(mqEvents.tripPromptItinerary, { tripId: trip._id });
+  const trip = await Trip.create(CreateTripSchema.parse(req.body));
+  mqSend(mqEvents.tripGenerateItinerary, { tripId: trip._id });
   res.status(201).send(trip);
 });
 

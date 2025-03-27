@@ -4,7 +4,7 @@ const { appDebug } = require("./debug");
 let channel;
 
 const mqEvents = {
-  tripPromptItinerary: "trip.promptItinerary",
+  tripGenerateItinerary: "trip.generateItinerary",
 };
 
 async function mqConnect() {
