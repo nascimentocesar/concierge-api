@@ -1,5 +1,6 @@
 const express = require("express");
 const Travel = require("../models/travel");
+const { mqChannel } = require("../infrastructure/rabbitmq");
 const router = express.Router();
 
 router.get("/", async (_req, res) => {
@@ -13,9 +14,19 @@ router.get("/:id", async (req, res) => {
   res.send(travels);
 });
 
-router.post("/", async (req, res, next) => {
-  const { prompt } = req.body;
-  const travel = await Travel.create({ prompt });
+router.post("/", async (req, res) => {
+  const { prompt, user } = req.body;
+  const travel = await Travel.create({ prompt, user });
+
+  try {
+    const channel = await mqChannel();
+    channel.sendToQueue("default", Buffer.from(JSON.stringify({})), {
+      persistent: true,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+
   res.status(201).send(travel);
 });
 

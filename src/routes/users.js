@@ -14,8 +14,8 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { prompt } = req.body;
-  const user = await User.create({ prompt });
+  const { email } = req.body;
+  const user = await User.create({ email });
   res.status(201).send(user);
 });
 

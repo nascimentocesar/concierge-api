@@ -5,9 +5,11 @@
  */
 
 const app = require("../app");
-const debug = require("debug")("concierge-api:server");
 const http = require("http");
-const mongoose = require("mongoose");
+
+const appDebug = require("../infrastructure/debug");
+const dbConnect = require("../infrastructure/mongoose");
+const { mqConnect } = require("../infrastructure/rabbitmq");
 
 /**
  * Get port from environment and store in Express.
@@ -31,13 +33,16 @@ server.on("error", onError);
 server.on("listening", onListening);
 
 /**
- * Connect to mongodb.
+ * Connect to MongoDB.
  */
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => debug("Connected to MongoDB"))
-  .catch((err) => console.error("Error connecting to MongoDB:", err));
+dbConnect();
+
+/**
+ * Connect to RabbitMQ.
+ */
+
+mqConnect();
 
 /**
  * Normalize a port into a number, string, or false.
@@ -75,11 +80,9 @@ function onError(error) {
     case "EACCES":
       console.error(bind + " requires elevated privileges");
       process.exit(1);
-      break;
     case "EADDRINUSE":
       console.error(bind + " is already in use");
       process.exit(1);
-      break;
     default:
       throw error;
   }
@@ -92,5 +95,5 @@ function onError(error) {
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-  debug("Listening on " + bind);
+  appDebug("Listening on " + bind);
 }

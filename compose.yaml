@@ -12,8 +12,10 @@ services:
     networks:
       - nginx-express
       - mongo-express
+      - rabbitmq-express
     depends_on:
       - mongo
+      - rabbitmq
 
   nginx:
     image: nginx:1.27-alpine
@@ -38,9 +40,39 @@ services:
     volumes:
       - mongo:/data/db
 
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    restart: always
+    env_file: .env
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - rabbitmq-express
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+
+  worker:
+    image: concierge-api
+    command: node ./src/infrastructure/worker.js
+    env_file: .env
+    build:
+      context: .
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - mongo-express
+      - rabbitmq-express
+    depends_on:
+      - mongo
+      - rabbitmq
+
 networks:
   nginx-express:
   mongo-express:
+  rabbitmq-express:
 
 volumes:
   mongo:
+  rabbitmq:
