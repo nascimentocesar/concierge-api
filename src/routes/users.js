@@ -1,6 +1,6 @@
 const express = require("express");
 const User = require("../models/user");
-const { CreateUserSchema } = require("../schemas/user.schema");
+const { createUser } = require("../services/user.service");
 const router = express.Router();
 
 router.get("/", async (_req, res) => {
@@ -15,7 +15,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const user = await User.create(CreateUserSchema.parse(req.body));
+  const user = await createUser(req.body);
   res.status(201).send(user);
 });
 
