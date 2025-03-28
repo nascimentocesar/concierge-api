@@ -7,6 +7,7 @@ Application stack:
 - Docker
 - MongoDB
 - RabbitMQ
+- ChatGPT
 - nginx
 
 ## Setting up the environment

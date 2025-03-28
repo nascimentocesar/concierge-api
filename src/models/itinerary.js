@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
-const Event = require("./event");
+const Activity = require("./activity");
 
 const schema = new mongoose.Schema({
-  events: { type: [Event.schema], default: [] },
+  activities: { type: [Activity.schema], default: [] },
+  estimateCost: { type: Number, required: true },
+  summary: { type: String, required: true },
 });
 
 const Itinerary = mongoose.model("Itinerary", schema);

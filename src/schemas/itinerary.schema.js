@@ -1,8 +1,14 @@
 const { z } = require("zod");
-const { CreateEventSchema } = require("./event.schema");
+const { CreateActivitySchema } = require("./activity.schema");
 
 const CreateItinerarySchema = z.object({
-  events: z.array(CreateEventSchema).nonempty(),
+  activities: z.array(CreateActivitySchema),
+  estimateCost: z.number(),
+  summary: z.string(),
 });
 
-module.exports = { CreateItinerarySchema };
+const CreateItineraryListSchema = z.object({
+  itineraries: z.array(CreateItinerarySchema),
+});
+
+module.exports = { CreateItineraryListSchema, CreateItinerarySchema };
