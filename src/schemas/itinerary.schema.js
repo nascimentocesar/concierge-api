@@ -7,8 +7,4 @@ const CreateItinerarySchema = z.object({
   summary: z.string(),
 });
 
-const CreateItineraryListSchema = z.object({
-  itineraries: z.array(CreateItinerarySchema),
-});
-
-module.exports = { CreateItineraryListSchema, CreateItinerarySchema };
+module.exports = { CreateItinerarySchema };

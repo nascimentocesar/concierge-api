@@ -1,7 +1,14 @@
+const { z } = require("zod");
 const { zodResponseFormat } = require("openai/helpers/zod");
 const Trip = require("../models/trip");
 const { sendPromptToChatGPT } = require("../infrastructure/openai");
-const { CreateItineraryListSchema } = require("../schemas/itinerary.schema");
+const {
+  CreateTripSchema,
+  UpdateTripSchema,
+} = require("../schemas/trip.schema");
+const { CreateItinerarySchema } = require("../schemas/itinerary.schema");
+
+const createTrip = async (data) => Trip.create(CreateTripSchema.parse(data));
 
 const generateItinerary = async ({ tripId }) => {
   const trip = await Trip.findById(tripId);
@@ -26,13 +33,28 @@ const generateItinerary = async ({ tripId }) => {
       - Consider free time for leisure and exploration.
   `;
 
-  sendPromptToChatGPT(
+  const response = await sendPromptToChatGPT(
     prompt,
     instructions,
-    zodResponseFormat(CreateItineraryListSchema, "itineraries")
+    zodResponseFormat(
+      z.object({
+        itineraries: z.array(CreateItinerarySchema),
+      }),
+      "itineraries"
+    )
   );
+
+  return updateTrip(tripId, response);
+};
+
+const updateTrip = async (tripId, data) => {
+  return Trip.findByIdAndUpdate(tripId, UpdateTripSchema.parse(data), {
+    new: true,
+  });
 };
 
 module.exports = {
+  createTrip,
   generateItinerary,
+  updateTrip,
 };

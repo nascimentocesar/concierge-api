@@ -1,5 +1,4 @@
 const { OpenAI } = require("openai");
-const { appDebug } = require("./debug");
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -21,10 +20,7 @@ const sendPromptToChatGPT = async (prompt, instructions, format) => {
     response_format: format,
   });
 
-  const response = completion.choices[0].message.parsed;
-
-  appDebug(completion);
-  appDebug(completion.choices[0].message);
+  return completion.choices[0].message.parsed;
 };
 
 module.exports = {
