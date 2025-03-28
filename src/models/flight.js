@@ -4,6 +4,6 @@ const schema = new mongoose.Schema({
   data: { type: Object },
 });
 
-const Place = mongoose.model("Place", schema);
+const Flight = mongoose.model("Flight", schema);
 
-module.exports = Place;
+module.exports = Flight;

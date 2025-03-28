@@ -6,22 +6,26 @@ const client = new OpenAI({
 });
 
 const sendPromptToChatGPT = async (prompt, instructions, schema, key) => {
-  const completion = await client.beta.chat.completions.parse({
-    model: process.env.OPENAI_MODEL,
-    messages: [
-      {
-        role: "system",
-        content: instructions,
-      },
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-    response_format: zodResponseFormat(schema, key),
-  });
-
-  return schema.parse(completion.choices[0].message.parsed);
+  return client.beta.chat.completions
+    .parse({
+      model: process.env.OPENAI_MODEL,
+      messages: [
+        {
+          role: "system",
+          content: instructions,
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      response_format: zodResponseFormat(schema, key),
+    })
+    .then((completion) => completion.choices[0].message.parsed)
+    .catch((error) => {
+      console.error("Error fetching OpenAI response:", error.message);
+      throw error;
+    });
 };
 
 module.exports = {
