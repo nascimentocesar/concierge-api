@@ -4,12 +4,15 @@ const { CreateActivitySchema } = require("./activity.schema");
 const CreateItinerarySchema = z.object({
   activities: z.array(CreateActivitySchema),
   estimateCost: z.number(),
-  flightOptionId: z.string(),
+  flightId: z.string(),
   summary: z.string(),
 });
 
-const GenerateItinerariesSchema = z.object({
+const GenerateItineraryRecommendationsSchema = z.object({
   itineraries: z.array(CreateItinerarySchema),
 });
 
-module.exports = { CreateItinerarySchema, GenerateItinerariesSchema };
+module.exports = {
+  CreateItinerarySchema,
+  GenerateItineraryRecommendationsSchema,
+};

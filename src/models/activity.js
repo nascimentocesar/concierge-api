@@ -2,14 +2,14 @@ const mongoose = require("mongoose");
 const Place = require("./place");
 
 const schema = new mongoose.Schema({
-  description: { type: String, required: false },
-  endsAt: { type: Date, required: true },
-  estimateCost: { type: Number, required: true },
-  estimateDuration: { type: Number, required: true },
-  location: { type: String, required: true },
-  name: { type: String, required: true },
-  place: { type: Place.schema, required: false },
-  startsAt: { type: Date, required: true },
+  description: { type: String },
+  endsAt: { type: Date },
+  estimateCost: { type: Number },
+  estimateDuration: { type: Number },
+  location: { type: String },
+  name: { type: String },
+  place: { type: Place.schema },
+  startsAt: { type: Date },
 });
 
 const Activity = mongoose.model("Activity", schema);

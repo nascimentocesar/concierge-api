@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const Itinerary = require("./itinerary");
-const FlightOption = require("./flightOption");
+const Flight = require("./flight");
 
 const schema = new mongoose.Schema(
   {
-    flightOptions: { type: [FlightOption.schema], default: [] },
+    flights: { type: [Flight.schema], default: [] },
     itineraries: { type: [Itinerary.schema], default: [] },
-    prompts: { type: [String], default: [] },
+    prompt: { type: String, required: true },
     user: { type: String, required: true },
   },
   { timestamps: true }

@@ -3,9 +3,9 @@ const Activity = require("./activity");
 
 const schema = new mongoose.Schema({
   activities: { type: [Activity.schema], default: [] },
-  estimateCost: { type: Number, required: true },
-  flightOptionId: { type: String, required: true },
-  summary: { type: String, required: true },
+  estimateCost: { type: Number },
+  flightId: { type: String },
+  summary: { type: String },
 });
 
 const Itinerary = mongoose.model("Itinerary", schema);

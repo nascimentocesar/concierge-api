@@ -4,7 +4,7 @@ const { appDebug } = require("./debug");
 let channel;
 
 const mqEvents = {
-  generateTrip: "generateTrip",
+  generateTripRecommendations: "generateTripRecommendations",
 };
 
 async function mqConnect() {
@@ -37,7 +37,7 @@ async function mqSend(eventType, messageData) {
       persistent: true,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error enqueuing message:", error.message);
   }
 }
 
