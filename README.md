@@ -20,3 +20,8 @@ Application stack:
 2. Create a `.env` file inside the root directory. You can use the `.env.example` file as a template by simply duplicating and renaming it to `.env` and adjusting the environment variables values accordingly.
 3. Run the command `docker compose up -d --build` to create the application containers.
 4. Use http://localhost/ to access the API.
+
+## Known issues
+
+- Estimate prices might not be accurate, specially because of currency differences;
+- Requests might crash because of poorly structured prompts or ChatGPT eventual hallucinations;

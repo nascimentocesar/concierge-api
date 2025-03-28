@@ -1,14 +1,16 @@
 const { z } = require("zod");
 const { CreateItinerarySchema } = require("./itinerary.schema");
+const { CreateFlightOptionSchema } = require("./flightOption.schema");
 
 const CreateTripSchema = z.object({
+  prompts: z.array(z.string()).nonempty(),
   user: z.string(),
-  userPrompts: z.array(z.string()).nonempty(),
 });
 
 const UpdateTripSchema = z.object({
-  userPrompts: z.array(z.string()).nonempty().optional(),
+  flightOptions: z.array(CreateFlightOptionSchema).nonempty().optional(),
   itineraries: z.array(CreateItinerarySchema).nonempty().optional(),
+  prompts: z.array(z.string()).nonempty().optional(),
 });
 
 module.exports = { CreateTripSchema, UpdateTripSchema };
