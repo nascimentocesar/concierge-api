@@ -1,10 +1,11 @@
 const { OpenAI } = require("openai");
+const { zodResponseFormat } = require("openai/helpers/zod");
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const sendPromptToChatGPT = async (prompt, instructions, format) => {
+const sendPromptToChatGPT = async (prompt, instructions, schema, key) => {
   const completion = await client.beta.chat.completions.parse({
     model: process.env.OPENAI_MODEL,
     messages: [
@@ -17,10 +18,10 @@ const sendPromptToChatGPT = async (prompt, instructions, format) => {
         content: prompt,
       },
     ],
-    response_format: format,
+    response_format: zodResponseFormat(schema, key),
   });
 
-  return completion.choices[0].message.parsed;
+  return schema.parse(completion.choices[0].message.parsed);
 };
 
 module.exports = {

@@ -1,7 +1,7 @@
 const express = require("express");
 const { mqSend, mqEvents } = require("../infrastructure/rabbitmq");
 const Trip = require("../models/trip");
-const { createTrip } = require("../services/trip.service");
+const { createTrip, generateTrip } = require("../services/trip.service");
 const router = express.Router();
 
 router.get("/", async (_req, res) => {
@@ -17,7 +17,8 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const trip = await createTrip(req.body);
-  mqSend(mqEvents.tripGenerateItinerary, { tripId: trip._id });
+  // mqSend(mqEvents.generateTrip, { tripId: trip._id });
+  generateTrip({ tripId: trip._id });
   res.status(201).send(trip);
 });
 

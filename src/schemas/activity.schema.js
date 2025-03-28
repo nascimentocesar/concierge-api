@@ -1,4 +1,5 @@
 const { z } = require("zod");
+const { CreatePlaceSchema } = require("./place.schema");
 
 const CreateActivitySchema = z.object({
   description: z.string(),
@@ -10,4 +11,8 @@ const CreateActivitySchema = z.object({
   startsAt: z.string(),
 });
 
-module.exports = { CreateActivitySchema };
+const UpdateActivitySchema = z.object({
+  place: CreatePlaceSchema,
+});
+
+module.exports = { CreateActivitySchema, UpdateActivitySchema };

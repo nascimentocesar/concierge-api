@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Place = require("./place");
 
 const schema = new mongoose.Schema({
   description: { type: String, required: false },
@@ -7,6 +8,7 @@ const schema = new mongoose.Schema({
   estimateDuration: { type: Number, required: true },
   location: { type: String, required: true },
   name: { type: String, required: true },
+  place: { type: Place.schema, required: false },
   startsAt: { type: Date, required: true },
 });
 
