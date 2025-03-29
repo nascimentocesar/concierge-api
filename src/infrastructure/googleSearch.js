@@ -1,13 +1,13 @@
 const axios = require("axios").default;
 
-async function searchFlights({
+const searchFlights = async ({
   adults,
   arrivalAirportCode,
   children,
   departureAirportCode,
   departureDate,
   returnDate,
-}) {
+}) => {
   const params = {
     adults,
     api_key: process.env.SERPAPI_API_KEY,
@@ -21,17 +21,37 @@ async function searchFlights({
     type: 1,
   };
 
+  const departureFlight = await getBestFlight(params);
+  const returnFlight = await getBestFlight({
+    ...params,
+    departure_token: departureFlight.departure_token,
+  });
+
+  return [departureFlight, returnFlight];
+};
+
+const getBestFlight = async (params) => {
+  const flightsData = await sendRequest(params);
+  const flights = [
+    ...flightsData.data.best_flights,
+    ...flightsData.data.other_flights,
+  ];
+
+  if (!flights.length) {
+    throw new Error("No flights returned");
+  }
+
+  return flights[0];
+};
+
+const sendRequest = async (params) => {
   return axios
     .get("https://serpapi.com/search.json", { params })
-    .then((response) => response.data.best_flights.map((data) => ({ data })))
     .catch((error) => {
-      console.error(
-        "Error fetching Google Flights API response:",
-        error.message
-      );
+      console.error("Error fetching Google API response:", error.message);
       throw error;
     });
-}
+};
 
 module.exports = {
   searchFlights,

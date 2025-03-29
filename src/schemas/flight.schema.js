@@ -19,10 +19,6 @@ const CreateFlightSchema = z.object({
   totalDuration: z.number(),
 });
 
-const GenerateFlightRecommendationsSchema = z.object({
-  flights: z.array(CreateFlightSchema),
-});
-
 const SearchFlightsSchema = z.object({
   query: z.object({
     adults: z.number(),
@@ -36,6 +32,5 @@ const SearchFlightsSchema = z.object({
 
 module.exports = {
   CreateFlightSchema,
-  GenerateFlightRecommendationsSchema,
   SearchFlightsSchema,
 };
