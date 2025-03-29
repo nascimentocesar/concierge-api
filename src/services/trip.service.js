@@ -9,9 +9,9 @@ const { generateItineraryRecommendations } = require("./itinerary.service");
 const createTrip = async (data) => Trip.create(CreateTripSchema.parse(data));
 
 const generateTripRecommendations = async (tripId) =>
-  generateFlightRecommendations(tripId).then(() =>
-    generateItineraryRecommendations(tripId)
-  );
+  generateFlightRecommendations(tripId)
+    .then(() => generateItineraryRecommendations(tripId))
+    .then(() => updateTrip(tripId, { isComplete: true }));
 
 const updateTrip = async (tripId, data) =>
   Trip.findByIdAndUpdate(tripId, UpdateTripSchema.parse(data), {

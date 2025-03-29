@@ -8,6 +8,7 @@ const CreateTripSchema = z.object({
 
 const UpdateTripSchema = z.object({
   flights: z.array(CreateFlightSchema).nonempty().optional(),
+  isComplete: z.boolean().optional(),
   itineraries: z.array(CreateItinerarySchema).nonempty().optional(),
   prompt: z.string().nonempty().optional(),
 });

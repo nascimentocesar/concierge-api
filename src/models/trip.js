@@ -6,6 +6,7 @@ const schema = new mongoose.Schema(
   {
     flights: { type: [Flight.schema], default: [] },
     itineraries: { type: [Itinerary.schema], default: [] },
+    isComplete: { type: Boolean, default: false },
     prompt: { type: String, required: true },
   },
   { timestamps: true }
