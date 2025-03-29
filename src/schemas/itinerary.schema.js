@@ -6,6 +6,7 @@ const CreateItinerarySchema = z.object({
   estimateCost: z.number(),
   flightId: z.string(),
   summary: z.string(),
+  title: z.string(),
 });
 
 const GenerateItineraryRecommendationsSchema = z.object({

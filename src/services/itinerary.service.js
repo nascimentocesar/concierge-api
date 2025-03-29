@@ -22,7 +22,7 @@ const generateItineraryRecommendations = async (tripId) => {
     Each [itinerary option] is composed of:
       - one option from [flightOptionsData] that best fits the [itinerary option] in terms of price and convenience;
       - a daily list of [activities] such as local attractions, cultural experiences, meals, and transportation when necessary for the duration of the trip;
-      - a captivating summary;
+      - a captivating summary and title;
       - an estimated total cost;
     Each [activity] contains information such as name, description, cost estimate, duration, and location.
     Important notes:
