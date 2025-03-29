@@ -4,7 +4,6 @@ const { CreateFlightSchema } = require("./flight.schema");
 
 const CreateTripSchema = z.object({
   prompt: z.string(),
-  user: z.string(),
 });
 
 const UpdateTripSchema = z.object({

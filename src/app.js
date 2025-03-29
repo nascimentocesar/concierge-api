@@ -6,7 +6,6 @@ const cors = require("cors");
 
 const indexRouter = require("./routes/index");
 const tripsRouter = require("./routes/trip");
-const usersRouter = require("./routes/users");
 
 const app = express();
 
@@ -19,7 +18,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/trips", tripsRouter);
-app.use("/users", usersRouter);
 
 app.use((error, _req, res, _next) => {
   console.error("DEU ERRO");
