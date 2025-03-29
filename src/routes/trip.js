@@ -7,6 +7,14 @@ const {
 } = require("../services/trip.service");
 const router = express.Router();
 
+router.delete("/", async (_req, res, next) => {
+  try {
+    res.send(await Trip.deleteMany({}));
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/", async (_req, res, next) => {
   try {
     res.send(await Trip.find({}));

@@ -4,7 +4,6 @@ const { CreateActivitySchema } = require("./activity.schema");
 const CreateItinerarySchema = z.object({
   activities: z.array(CreateActivitySchema),
   estimateCost: z.number(),
-  flightId: z.string(),
   summary: z.string(),
   title: z.string(),
 });

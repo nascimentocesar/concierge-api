@@ -4,7 +4,6 @@ const Activity = require("./activity");
 const schema = new mongoose.Schema({
   activities: { type: [Activity.schema], default: [] },
   estimateCost: { type: Number },
-  flightId: { type: String },
   summary: { type: String },
   title: { type: String },
 });

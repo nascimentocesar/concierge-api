@@ -26,8 +26,31 @@ const generateFlightRecommendations = async (tripId) => {
   const { updateTrip } = require("./trip.service");
   sendPromptToChatGPT(trip.prompt, instructions, SearchFlightsSchema, "query")
     .then((response) => searchFlights(response.query))
-    .then((data) => GenerateFlightRecommendationsSchema.parse(data))
+    .then((data) =>
+      GenerateFlightRecommendationsSchema.parse(parseFlightsData(data))
+    )
     .then((data) => updateTrip(tripId, data));
+};
+
+const parseFlightsData = (flightsData) => {
+  return {
+    flights: flightsData.map((flightData) => ({
+      price: flightData.data.price,
+      segments: flightData.data.flights.map((segment) => ({
+        airline: segment.airline,
+        airlineLogo: segment.airline_logo,
+        arrivalAirportCode: segment.arrival_airport.id,
+        arrivalAirportName: segment.arrival_airport.name,
+        arrivalDate: segment.arrival_airport.time,
+        departureAirportCode: segment.departure_airport.id,
+        departureAirportName: segment.departure_airport.name,
+        departureDate: segment.departure_airport.time,
+        duration: segment.duration,
+        flightNumber: segment.flight_number,
+      })),
+      totalDuration: flightData.data.total_duration,
+    })),
+  };
 };
 
 module.exports = {

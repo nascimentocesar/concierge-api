@@ -23,12 +23,7 @@ async function searchFlights({
 
   return axios
     .get("https://serpapi.com/search.json", { params })
-    .then((response) => ({
-      flights: [
-        ...response.data.best_flights,
-        ...response.data.other_flights,
-      ].map((data) => ({ data })),
-    }))
+    .then((response) => response.data.best_flights.map((data) => ({ data })))
     .catch((error) => {
       console.error(
         "Error fetching Google Flights API response:",

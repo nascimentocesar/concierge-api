@@ -1,7 +1,22 @@
 const { z } = require("zod");
 
 const CreateFlightSchema = z.object({
-  data: z.record(z.string(), z.any()),
+  price: z.number(),
+  segments: z.array(
+    z.object({
+      airline: z.string(),
+      airlineLogo: z.string(),
+      arrivalAirportCode: z.string(),
+      arrivalAirportName: z.string(),
+      arrivalDate: z.string(),
+      departureAirportCode: z.string(),
+      departureAirportName: z.string(),
+      departureDate: z.string(),
+      duration: z.number(),
+      flightNumber: z.string(),
+    })
+  ),
+  totalDuration: z.number(),
 });
 
 const GenerateFlightRecommendationsSchema = z.object({
