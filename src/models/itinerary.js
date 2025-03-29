@@ -6,6 +6,7 @@ const schema = new mongoose.Schema({
   estimateCost: { type: Number },
   flightId: { type: String },
   summary: { type: String },
+  title: { type: String },
 });
 
 const Itinerary = mongoose.model("Itinerary", schema);
