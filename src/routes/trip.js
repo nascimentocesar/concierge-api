@@ -34,8 +34,8 @@ router.get("/:id", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   try {
     const trip = await createTrip(req.body);
-    // mqSend(mqEvents.generateTripRecommendations, { tripId: trip._id });
-    generateTripRecommendations(trip._id);
+    mqSend(mqEvents.generateTripRecommendations, trip._id);
+    // generateTripRecommendations(trip._id);
     res.status(201).send(trip);
   } catch (error) {
     next(error);
