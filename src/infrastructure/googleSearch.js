@@ -33,8 +33,8 @@ const searchFlights = async ({
 const getBestFlight = async (params) => {
   const flightsData = await sendRequest(params);
   const flights = [
-    ...flightsData.data.best_flights,
-    ...flightsData.data.other_flights,
+    ...(flightsData.data.best_flights || []),
+    ...(flightsData.data.other_flights || []),
   ];
 
   if (!flights.length) {
