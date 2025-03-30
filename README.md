@@ -8,7 +8,6 @@ Application stack:
 - MongoDB
 - RabbitMQ
 - ChatGPT
-- nginx
 
 ## Setting up the environment
 
@@ -19,7 +18,7 @@ Application stack:
 1. Make sure you have `docker` installed in your machine.
 2. Create a `.env` file inside the root directory. You can use the `.env.example` file as a template by simply duplicating and renaming it to `.env` and adjusting the environment variables values accordingly.
 3. Run the command `docker compose up -d --build` to create the application containers.
-4. Use http://localhost/ to access the API.
+4. Use http://localhost:3000 to access the API.
 
 ## Known issues
 
