@@ -18,7 +18,7 @@ const generateItineraryRecommendations = async (tripId) => {
     - **title:** A short, captivating title for the itinerary.
     - **summary:** A one-paragraph summary highlighting the key aspects of the itinerary.
     - **estimate_cost:** An estimated total cost in USD.
-    - **activities:** An array of activity objects scheduled for that day.
+    - **activities:** An array of activity objects. Generate **4 to 6** activity object for each day of the trip for every itinerary option.
 
     Each activity object must contain:
     - **name:** The name of the activity.
@@ -31,8 +31,7 @@ const generateItineraryRecommendations = async (tripId) => {
 
     Important considerations:
     - Always provide exactly 3 itinerary options.
-    - Always suggest multiple activities for each day.
-    - Ensure to cover all days of the trip.
+    - Ensure every day between the start and end dates of the trip has at least one scheduled activity.
     - Ensure that the activities are suitable for the specified number of adults and children.
     - Account for commuting time and distance between activities as well as arrival and departure times.
     - Include free time for leisure and exploration.
