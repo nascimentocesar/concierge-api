@@ -6,8 +6,8 @@ const client = new OpenAI({
 });
 
 const sendPromptToChatGPT = async (prompt, instructions, schema, key) => {
-  return client.beta.chat.completions
-    .parse({
+  try {
+    const completion = await client.beta.chat.completions.parse({
       model: process.env.OPENAI_MODEL,
       messages: [
         {
@@ -20,12 +20,13 @@ const sendPromptToChatGPT = async (prompt, instructions, schema, key) => {
         },
       ],
       response_format: zodResponseFormat(schema, key),
-    })
-    .then((completion) => completion.choices[0].message.parsed)
-    .catch((error) => {
-      console.error("Error fetching OpenAI response:", error.message);
-      throw error;
     });
+
+    return completion.choices[0].message.parsed;
+  } catch (error) {
+    console.error("Error fetching OpenAI response:", error.message);
+    throw error;
+  }
 };
 
 module.exports = {
